@@ -26,9 +26,7 @@ public class NameClient {
 
     public NameClient(ManagedChannel managedChannel) {
         this.managedChannel = managedChannel;
-        Channel channel = ClientInterceptors.intercept(managedChannel, new ClientInterruptImpl());
-        this.nameServersBlockingStub = NameServersGrpc.newBlockingStub(channel);
-//        this.nameServersBlockingStub = NameServersGrpc.newBlockingStub(managedChannel);
+        this.nameServersBlockingStub = NameServersGrpc.newBlockingStub(managedChannel);
 
         Metadata.Key<String> ATTCHED_HEADER =
                 Metadata.Key.of("attached_header", Metadata.ASCII_STRING_MARSHALLER);

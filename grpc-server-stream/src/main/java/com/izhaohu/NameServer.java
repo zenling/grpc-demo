@@ -18,7 +18,7 @@ public class NameServer {
 
     public NameServer(int port, ServerBuilder<?> serverBuilder) {
         this.port = port;
-        server = serverBuilder.addService(ServerInterceptors.intercept(new NameServersImplBaseImpl(), new ServerInterruptImpl())).build();
+        server = serverBuilder.addService(new NameServersImplBaseImpl()).build();
     }
 
     public NameServer(int port) {

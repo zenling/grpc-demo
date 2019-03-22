@@ -7,13 +7,31 @@
     <groupId>com.izhaohu</groupId>
     <artifactId>grpc-demo</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <modules>
         <module>grpc-server</module>
         <module>grpc-client</module>
         <module>grpc-server-stream</module>
         <module>grpc-client-stream</module>
+        <module>grpc-base</module>
+        <module>grpc-core</module>
+        <module>grpc-user-point-service</module>
+        <module>grpc-user-client</module>
     </modules>
 
+    <build>
+        <pluginManagement>
+             <plugins>
+                 <plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
+                     <artifactId>maven-compiler-plugin</artifactId>
+                     <configuration>
+                         <source>1.8</source>
+                         <target>1.8</target>
+                     </configuration>
+                 </plugin>
+             </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

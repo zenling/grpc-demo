@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS t_user;
+
+CREATE TABLE t_user (
+  id BIGINT(20) NOT NULL auto_increment PRIMARY  KEY ,
+  name VARCHAR(20) NOT NULL COMMENT '用户账号',
+  age INT(11) DEFAULT 0 COMMENT '年龄',
+  email VARCHAR(20) NULL DEFAULT NULL COMMENT '邮箱'
+);
+

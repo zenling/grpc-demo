@@ -5,21 +5,37 @@
     <parent>
         <artifactId>grpc-demo</artifactId>
         <groupId>com.izhaohu</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>grpc-server</artifactId>
+    <packaging>jar</packaging>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <grpc.version>1.12.0</grpc.version>
         <!--<protobuf.version>3.5.1</protobuf.version>-->
-        <protoc.version>3.5.1-1</protoc.version>
+        
+        <mybatis.version>3.5.0</mybatis.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <logback.version>1.1.7</logback.version>
     </properties>
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.izhaohu</groupId>
+            <artifactId>grpc-base</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.izhaohu</groupId>
+            <artifactId>grpc-core</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -35,56 +51,134 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
         <!--<dependency>-->
         <!--<groupId>com.google.protobuf</groupId>-->
         <!--<artifactId>protobuf-java-util</artifactId>-->
         <!--<version>${protobuf.version}</version>-->
         <!--</dependency>-->
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-agroal</artifactId>
+            <version>5.3.9.Final</version>
+            <type>pom</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.1-jre</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>6.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- java.util.logging , NOTE ON PERFORMANCE -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- commons-logging.jar -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>kr.motd.maven</groupId>
-                <artifactId>os-maven-plugin</artifactId>
-                <version>1.5.0.Final</version>
-            </extension>
-        </extensions>
-        <plugins>
+        
+            <plugins>
             <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.5.1</version>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
-                    <pluginId>grpc-java</pluginId>
-                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.izhaohu.NameServer</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>compile</goal>
-                            <goal>compile-custom</goal>
+                            <goal>assembly</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imageName>${project.groupId}/${project.artifactId}:1.0</imageName>
+                    <dockerDirectory>${project.basedir}\src\main\docker</dockerDirectory>
+                    <dockerHost>http://10.100.10.220:2375</dockerHost>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>

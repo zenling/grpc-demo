@@ -1,0 +1,26 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+option java_package = "com.izhaohu.grpc.proto.user";
+option java_outer_classname = "UserProto";
+option objc_class_prefix = "UA";
+
+package usersapi;
+
+service UserApi  {
+    rpc saveUser(User) returns (Response){}
+}
+
+message User{
+      int32 id = 1;
+      string name = 2;
+      int32 age = 3;
+      string email = 4;
+}
+
+message Response{
+    int32 code = 1;
+    string error = 2;
+   /// repeated google.protobuf.Any any = 3; // Any对象
+}

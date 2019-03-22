@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+option java_package = "com.izhaohu.grpc.proto.point";
+option java_outer_classname = "PointProto";
+option objc_class_prefix = "PA";
+
+package pointapi;
+
+service PointApi  {
+    rpc addPoint(Point) returns (Response){}
+}
+
+message Point{
+      int32 amount = 1;
+      int32 userId = 2;
+}
+
+message Response{
+    int32 code = 1;
+    string error = 2;
+   /// repeated google.protobuf.Any any = 3; // Any对象
+}

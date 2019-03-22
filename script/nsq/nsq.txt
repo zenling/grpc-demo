@@ -1,0 +1,13 @@
+docker pull nsqio/nsq
+
+docker network create nsq-net 
+
+#nsqlookupd: 
+docker run -d --name lookupd --net nsq-net -p 4160:4160 -p 4161:4161 nsqio/nsq /nsqlookupd
+
+#nsqd: 
+ifconfig | grep addr #ªÒ»° broadcast-address µÿ÷∑
+docker run -d --name nsqd --net nsq-net -v /data:/data -p 4150:4150 -p 4151:4151 nsqio/nsq /nsqd --broadcast-address=127.0.0.1 --lookupd-tcp-address=lookupd:4160 --data-path=/data
+
+#nsqadmin : 
+docker run -d --name nsq-admin --net nsq-net  -p 4171:4171 nsqio/nsq /nsqadmin --lookupd-http-address=lookupd:4161 

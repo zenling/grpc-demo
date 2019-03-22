@@ -16,7 +16,7 @@
     </environments>
 
     <mappers>
-        <package name="com/izhaohu/model/mapper"></package>
+       <mapper class="com.izhaohu.model.mapper.UserMapper"/>
     </mappers>
     
 </configuration>

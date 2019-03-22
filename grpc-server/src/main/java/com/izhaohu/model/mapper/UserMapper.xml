@@ -8,13 +8,15 @@
         <result property="email" column="email" javaType="java.lang.String"></result>
     </resultMap>
 
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user (name, age, email) values (#{name}, #{age}, #{email})
-    </insert>
+
 
     <update id="updateUser">
         update t_user set age = #{age}, email = #{email}  where id = #{id}
     </update>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user (name, age, email) values (#{name}, #{age}, #{email})
+    </insert>
 
     <delete id="deleteUser" parameterType="int">
         delete from t_user where  id = #{id}

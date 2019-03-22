@@ -58,26 +58,6 @@ private static final String DEFAULT_HOST = "127.0.0.1";
 
     public static void main(String[] args) throws InterruptedException {
         UserClient client = new UserClient(DEFAULT_HOST,DEFAULT_PORT );
-        /*for (String arg : args) {
-            String res = client.getIpByName(arg);
-            logger.info("get result from server "+ res +" as name is "+ arg);
-
-            ComplexObject co = client.getComplexObjByName(res);
-            Gender gender = co.getGender();
-            List<Result> inner = co.getInnerObjList();
-            System.out.println("-----------------inner--------------------------");
-            for (Result r: inner ) {
-                System.out.print(r);
-            }
-
-            System.out.println("--------------mapValue---------------------");
-            Map<String, MapValue> mapValue = co.getMapListMap();
-            for (String key: mapValue.keySet()) {
-                System.out.println("key : " +key);
-                System.out.println("value : "+mapValue.get(key).getEleList());
-            }
-
-        }*/
         Response result = client.register("ceshi", "ceshi@izhaohu.com", 18);
         logger.log(Level.WARNING, result.getCode()+"");
         client.shutdown();
